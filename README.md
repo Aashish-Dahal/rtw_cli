@@ -2,10 +2,20 @@
 
 The `rtw` CLI tool is a Dart-based utility for generating boilerplate code for Flutter projects. It supports generating widgets, services, repositories, and API endpoints, following SOLID principles and a modular directory structure.
 
+## Installation
+
+To use the RTW CLI, activate it globally from the public GitHub repository:
+
+```
+dart pub global activate --source git https://github.com/Aashish-Dahal/rtw_cli.git
+```
+
+This makes the `rtw` command available on your system.
+
 ## Directory Structure
 
 ```
-rtw/
+rtw_cli/
 ├── 📁 bin/
 │   └── 📄 rtw.dart
 ├── 📁 lib/
@@ -16,7 +26,8 @@ rtw/
 │   ├── 📁 services/
 │   ├── 📁 utils/
 ├── 📄 main.dart
-└── 📄 README.md
+├─ 📄 rtw_cli.dart
+└─📄 README.md
 ```
 
 ## Available Commands
