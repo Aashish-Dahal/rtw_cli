@@ -6,6 +6,7 @@ import '../services/file_service.dart';
 import '../services/injector_service.dart';
 import '../services/path_service.dart';
 import '../sub_commands/endpoint_sub_command.dart';
+import '../sub_commands/flutter_sub_command.dart';
 import '../sub_commands/page_sub_command.dart';
 import '../sub_commands/repo_sub_command.dart';
 import '../sub_commands/service_sub_command.dart';
@@ -102,6 +103,46 @@ class GenerateCommand implements Command {
       }
 
       subCommandInstance.execute(name, featureName, subCommand ?? '');
+    } else {
+      switch (results.command?.name) {
+        case 'pub':
+          FlutterSubCommand.execute([
+            'pub',
+            ...results.command!.rest,
+          ], "flutter");
+          break;
+        case 'clean':
+          FlutterSubCommand.execute([
+            'clean',
+            ...results.command!.rest,
+          ], "flutter");
+          break;
+        case 'build':
+          FlutterSubCommand.execute([
+            'build',
+            ...results.command!.rest,
+          ], "flutter");
+          break;
+        case 'doctor':
+          FlutterSubCommand.execute([
+            'doctor',
+            ...results.command!.rest,
+          ], "flutter");
+          break;
+        case 'fix':
+          FlutterSubCommand.execute(['fix', ...results.command!.rest], "dart");
+          break;
+        case 'format':
+          FlutterSubCommand.execute([
+            'format',
+            ...results.command!.rest,
+          ], "dart");
+          break;
+
+        default:
+          print('❌ Unknown subcommand: ${results.command?.name}');
+          exit(1);
+      }
     }
   }
 }

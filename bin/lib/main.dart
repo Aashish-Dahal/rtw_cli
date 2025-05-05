@@ -8,6 +8,12 @@ void main(List<String> arguments) {
   final parser =
       ArgParser()
         ..addCommand('generate')
+        ..addCommand('pub')
+        ..addCommand('clean')
+        ..addCommand('fix')
+        ..addCommand('format')
+        ..addCommand('build')
+        ..addCommand('doctor')
         ..addOption(
           'feature',
           abbr: 'f',
@@ -41,7 +47,13 @@ void main(List<String> arguments) {
   try {
     final results = parser.parse(arguments);
 
-    if (results.command?.name == 'generate') {
+    if (results.command?.name == 'generate' ||
+        results.command?.name == "pub" ||
+        results.command?.name == "build" ||
+        results.command?.name == "clean" ||
+        results.command?.name == "fix" ||
+        results.command?.name == "format" ||
+        results.command?.name == "doctor") {
       final command = GenerateCommand();
       if (results.command != null) {
         command.execute(results);
