@@ -45,7 +45,7 @@ class PathService {
         base =
             config.featureName != null
                 ? '$basePath/${config.featureName}'
-                : '../lib';
+                : 'lib/';
         config.filePath = defaultPath ?? base;
         break;
     }

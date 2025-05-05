@@ -31,8 +31,8 @@ class PageSubCommand implements SubCommand {
     final routePathGenerator = RoutePathGenerator();
     final appRouterGenerator = AppRouterGenerator();
 
-    final routePath = "../lib/app/config/routes/route_path.dart";
-    final appRouterPath = "../lib/app/config/routes/app_routes.dart";
+    final routePath = "lib/app/config/routes/route_path.dart";
+    final appRouterPath = "lib/app/config/routes/app_routes.dart";
 
     final content = generator.generate(config);
     final routeContent = routePathGenerator.generate(

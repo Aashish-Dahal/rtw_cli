@@ -11,7 +11,7 @@ class InjectorService {
     : _fileService = fileService ?? FileService();
 
   void updateInjector(ComponentConfig config, String type) {
-    final injectorPath = '../lib/app/injector.dart';
+    final injectorPath = 'lib/app/injector.dart';
     final className = Utils.toClassName(config.name);
     final implName =
         '$className${type == 'service' ? 'ApiServiceImpl' : 'RepositoryImpl'}';

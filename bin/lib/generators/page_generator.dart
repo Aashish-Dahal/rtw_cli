@@ -52,7 +52,7 @@ class _${className}PageState extends State<${className}Page> {
   (String, String) widgetGenerate(ComponentConfig config) {
     final className = Utils.toClassName(config.name);
     final filePath =
-        '../lib/app/widgets/organisms/${className.toLowerCase()}_page_view.dart';
+        'lib/app/widgets/organisms/${className.toLowerCase()}_page_view.dart';
     final content = '''
 import 'package:flutter/material.dart';
 
