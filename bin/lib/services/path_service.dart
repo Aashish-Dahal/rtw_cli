@@ -5,7 +5,7 @@ import 'package:path/path.dart' as path;
 import '../models/config.dart';
 
 class PathService {
-  final String basePath = "../lib/app";
+  final String basePath = "lib/app";
   String getFilePath(ComponentConfig config, {String? defaultPath}) {
     String base;
     switch (config.command) {
