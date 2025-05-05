@@ -104,6 +104,22 @@ The rtw CLI tool provides the following subcommands under the generate command. 
   rtw generate all user_profile --type stateful --feature user
   ```
 
+### Flutter/Dart Commands
+
+- `rtw pub get`: Runs `flutter pub get`
+
+- `rtw pub add <package>`: Runs `dart pub add <package>` to add a package to pubspec.yaml.
+
+- `rtw clean`: Runs `flutter clean`.
+
+- `rtw fix`: Runs `dart fix --apply`.
+
+- `rtw format`: Runs `dart format .`
+
+- `rtw build [args]`: Runs flutter build commands (e.g., `rtw build apk --release`).
+
+- `rtw doctor`: Runs `flutter doctor`.
+
 # Usage Notes
 
 - Feature Option: The --feature option is optional and specifies the feature name for a modular structure (e.g., placing files in `lib/app/<feature_name>/`).
