@@ -41,10 +41,8 @@ class PageSubCommand implements SubCommand {
     final appRouterContent = appRouterGenerator.generate(
       config..filePath = appRouterPath,
     );
-    final (widgetFilePath, widgetContent) = generator.widgetGenerate(config);
     final filePath = _pathService.getFilePath(config);
 
-    _fileService.writeFile(widgetFilePath, widgetContent);
     _fileService.writeFile(filePath, content);
     _fileService.writeFile(routePath, routeContent);
     _fileService.writeFile(appRouterPath, appRouterContent);

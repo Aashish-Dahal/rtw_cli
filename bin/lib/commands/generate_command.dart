@@ -8,6 +8,8 @@ import '../services/path_service.dart';
 import '../sub_commands/endpoint_sub_command.dart';
 import '../sub_commands/flutter_sub_command.dart';
 import '../sub_commands/page_sub_command.dart';
+import '../sub_commands/bloc_sub_command.dart';
+
 import '../sub_commands/repo_sub_command.dart';
 import '../sub_commands/service_sub_command.dart';
 import '../sub_commands/sub_command.dart';
@@ -71,6 +73,12 @@ class GenerateCommand implements Command {
             pathService: _pathService,
           );
           break;
+        case 'bloc':
+          subCommandInstance = BlocSubCommand(
+            fileService: _fileService,
+            pathService: _pathService,
+          );
+          break;
         case 'all':
           final pageSubCommand = PageSubCommand(
             fileService: _fileService,
@@ -91,8 +99,12 @@ class GenerateCommand implements Command {
             fileService: _fileService,
             pathService: _pathService,
           );
-
+          final blocSubCommand = BlocSubCommand(
+            fileService: _fileService,
+            pathService: _pathService,
+          );
           pageSubCommand.execute(name, featureName, 'page');
+          blocSubCommand.execute(name, featureName, 'bloc');
           serviceSubCommand.execute(name, featureName, 'service');
           repositorySubCommand.execute(name, featureName, 'repository');
           endpointSubCommand.execute(name, featureName, 'endpoint');
