@@ -30,8 +30,8 @@ class InjectorService {
 
     final registration =
         type == 'service'
-            ? 'sl.registerLazySingleton<${className}ApiService>(() => $implName());'
-            : 'sl.registerLazySingleton<${className}Repository>(() => $implName());';
+            ? 'sl.registerLazySingleton<${className}ApiService>(() => $implName(dioService: sl<DioService>()));'
+            : 'sl.registerLazySingleton<${className}Repository>(() => $implName(${className.toLowerCase()}ApiService:${className}ApiService));';
 
     final file = File(injectorPath);
     if (!file.existsSync()) {
