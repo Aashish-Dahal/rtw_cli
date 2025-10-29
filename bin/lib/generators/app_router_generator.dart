@@ -12,8 +12,8 @@ class AppRouterGenerator implements Generator {
 
     final importPath =
         config.featureName != null
-            ? "import '../../pages/${config.featureName}/page/${config.name}_page.dart';"
-            : "import '../../pages/${config.featureName}/page/${config.featureName}_page.dart';";
+            ? "import '../../features/${config.featureName}/page/${config.name}_page.dart';"
+            : "import '../../features/${config.featureName}/page/${config.featureName}_page.dart';";
 
     final routeContent = '''
       GoRoute(
@@ -70,7 +70,9 @@ $routeContent
     }
 
     // Add route
-    final routesIndex = existingContent.indexOf('routes: <GoRoute>[');
+    int routesIndex = -1;
+    routesIndex = existingContent.indexOf('routes: <GoRoute>[');
+    routesIndex = existingContent.indexOf('routes: <RouteBase>[');
     if (routesIndex == -1) {
       print('Error: ${config.filePath} does not contain routes list.');
       exit(1);
