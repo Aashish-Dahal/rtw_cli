@@ -14,8 +14,8 @@ class BlocGenerator {
   }
 
   String _generateBloc(String className, String rawName) => '''
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part '${rawName}_event.dart';
 part '${rawName}_state.dart';
@@ -33,7 +33,7 @@ final ${className}Repository ${className.toLowerCase()}Repository;
 ''';
 
   String _generateEvent(String className, String rawName) => '''
-part of '${rawName}_bloc.dart';
+ part of '${rawName}_bloc.dart';
 
 sealed class ${className}Event extends Equatable {
   const ${className}Event();

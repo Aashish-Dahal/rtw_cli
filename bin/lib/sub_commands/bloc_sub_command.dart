@@ -26,7 +26,9 @@ class BlocSubCommand implements SubCommand {
     final generator = BlocGenerator();
     final filePath = _pathService.getFilePath(config);
     final baseDir = path.dirname(filePath);
-    final rawName = path.basenameWithoutExtension(filePath);
+    final rawName = path
+        .basenameWithoutExtension(filePath)
+        .replaceAll("_bloc", "");
     final files = generator.generate(config);
 
     _fileService.writeFile(filePath, files['bloc']!);

@@ -70,7 +70,7 @@ $routeContent
     }
 
     // Add route
-    int routesIndex = -1;
+    int? routesIndex;
     routesIndex = existingContent.indexOf('routes: <GoRoute>[');
     routesIndex = existingContent.indexOf('routes: <RouteBase>[');
     if (routesIndex == -1) {

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import '../models/config.dart';
 import '../utils/utils.dart';
 import 'file_service.dart';
@@ -10,60 +9,76 @@ class InjectorService {
   InjectorService({FileService? fileService})
     : _fileService = fileService ?? FileService();
 
+  /// Update injector file by adding service or repository registration inside _registerFeatureServices
   void updateInjector(ComponentConfig config, String type) {
     final injectorPath = 'lib/app/injector.dart';
     final className = Utils.toClassName(config.name);
+
     final implName =
-        '$className${type == 'service' ? 'ApiServiceImpl' : 'RepositoryImpl'}';
+        type == 'service'
+            ? '${className}ApiServiceImpl'
+            : '${className}RepositoryImpl';
+
     final importPath =
         type == 'service'
             ? config.featureName != null
-                ? "import 'services/${config.name}_service.dart';"
+                ? "import 'features/${config.featureName}/services/${config.name}_service.dart';"
                 : "import 'services/${config.name}_service.dart';"
             : config.featureName != null
-            ? "import 'repository/${config.name}_repo.dart';"
+            ? "import 'features/${config.featureName}/repository/${config.name}_repo.dart';"
             : "import 'repository/${config.name}_repo.dart';";
-    final registration = '''
-  sl.registerSingleton<$className${type == 'service' ? 'ApiService' : 'Repository'}>($implName());
-''';
+
+    final registration =
+        type == 'service'
+            ? 'sl.registerLazySingleton<${className}ApiService>(() => $implName());'
+            : 'sl.registerLazySingleton<${className}Repository>(() => $implName());';
 
     final file = File(injectorPath);
-    String existingContent = file.readAsStringSync();
+    if (!file.existsSync()) {
+      print('Error: $injectorPath does not exist.');
+      return;
+    }
 
-    if (!existingContent.contains(importPath)) {
-      final importLines = existingContent.split('\n');
-      int lastImportIndex = importLines.lastIndexWhere(
+    String content = file.readAsStringSync();
+
+    // Add import if missing
+    if (!content.contains(importPath)) {
+      final lines = content.split('\n');
+      int lastImportIndex = lines.lastIndexWhere(
         (line) => line.startsWith('import '),
       );
-      if (lastImportIndex == -1) lastImportIndex = 0;
-      importLines.insert(lastImportIndex + 1, importPath);
-      existingContent = importLines.join('\n');
+      lastImportIndex = lastImportIndex < 0 ? 0 : lastImportIndex;
+      lines.insert(lastImportIndex + 1, importPath);
+      content = lines.join('\n');
     }
 
-    final sectionMarker = type == 'service' ? '// Services' : '// Repositories';
-    if (!existingContent.contains(sectionMarker)) {
-      existingContent = existingContent.replaceFirst(
-        'void _initServiceLocator() {',
-        'void _initServiceLocator() {\n  $sectionMarker',
+    // Find _registerFeatureServices function
+    final registerFnIndex = content.indexOf('void _registerFeatureServices()');
+    if (registerFnIndex == -1) {
+      print('Error: _registerFeatureServices() not found in $injectorPath.');
+      return;
+    }
+
+    // Find opening brace of _registerFeatureServices
+    final openBraceIndex = content.indexOf('{', registerFnIndex);
+    if (openBraceIndex == -1) {
+      print(
+        'Error: Could not find opening brace of _registerFeatureServices().',
       );
+      return;
     }
 
-    final lines = existingContent.split('\n');
-    final sectionIndex = lines.indexWhere(
-      (line) => line.contains(sectionMarker),
+    // Insert registration after opening brace
+    final insertIndex = openBraceIndex + 1;
+    content = content.replaceRange(
+      insertIndex,
+      insertIndex,
+      '\n  $registration',
     );
-    if (sectionIndex != -1) {
-      lines.insert(sectionIndex + 1, registration.trim());
-      existingContent = lines.join('\n');
-    } else {
-      existingContent = existingContent.replaceFirst(
-        '}',
-        '$registration\n  }',
-        existingContent.lastIndexOf('void _initServiceLocator()'),
-      );
-    }
 
-    _fileService.writeFile(injectorPath, existingContent);
+    // Write updated content back
+    _fileService.writeFile(injectorPath, content);
+
     print('💉 Updated $injectorPath with $type: $className');
   }
 }
