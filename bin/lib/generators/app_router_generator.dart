@@ -41,7 +41,7 @@ class AppRouter {
   final _goRouter = GoRouter(
     initialLocation: AppPage.$enumValue.toPath,
     navigatorKey: rootNavigatorKey,
-    routes: <GoRoute>[
+    routes: <RouteBase>[
 $routeContent
     ],
     errorBuilder: (context, state) => const Scaffold(body: Center(child: Text('Route Not Found'))),
